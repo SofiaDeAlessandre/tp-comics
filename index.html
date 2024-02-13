@@ -5,20 +5,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ada Comics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <!--HEADER-->
-    <header class="bg-blue-900 w-full h-20 flex justify-center">
-        <div class="w-48 h-full bg-red-600 flex items-center justify-center">
-            <h1 class="text-slate-50 text-3xl">ADA COMICS</h1>
+    <header class="bg-zinc-950 w-full h-20 flex justify-center">
+        <div class="w-56 h-full flex items-center justify-center">
+            <h1 class="text-violet-800 text-4xl">ADA COMICS</h1>
         </div>
     </header>
     <!--END HEADER-->
     <!--MAIN-->
-    <main>
+    <main class="flex flex-col items-center">
         <section class="w-full h-96">
             <img src="/img-comics/img-tp-comics.jpg" alt="" class="w-full h-full">
+        </section>
+        <section id="search-cont" class="h-80 bg-emerald-500 w-full p-4 flex flex-col gap-4">
+            <h2 class="text-2xl">
+                Búsqueda
+            </h2>
+            <div class="flex items-center gap-2">
+             <i class="fa-solid fa-magnifying-glass text-2xl"></i>
+             <input type="text" placeholder="Ingresá tu búsqueda" class="w-full h-12 border-b-4 border-green-900">
+            </div>
+            <div class="flex flex-col items-center gap-4">
+                <div class="flex justify-between bg-amber-300 w-full">
+                    <label class="text-gray-500 text-base font-medium">TIPO</label>
+                    <select>
+                        <option value="">Comics</option>
+                        <option value="">Personajes</option>
+                    </select>
+                
+                    <label class="text-gray-500 text-base font-medium">ORDEN</label>
+                    <select>
+                        <option value="">A-Z</option>
+                        <option value="">Z-A</option>
+                        <option value="">Más nuevo</option>
+                        <option value="">Más viejo</option>
+                    </select>
+                </div>
+                <button class="rounded-md p-2 bg-slate-500 text-lg flex self-end">Buscar</button>
+            </div>
         </section>
     </main>
 
