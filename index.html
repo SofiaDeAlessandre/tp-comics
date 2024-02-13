@@ -12,7 +12,7 @@
     <!--HEADER-->
     <header class="bg-zinc-950 w-full h-20 flex justify-center">
         <div class="w-56 h-full flex items-center justify-center">
-            <h1 class="text-violet-800 text-4xl">ADA COMICS</h1>
+            <h1 class="text-emerald-500 text-4xl">ADA COMICS</h1>
         </div>
     </header>
     <!--END HEADER-->
@@ -21,35 +21,58 @@
         <section class="w-full h-96">
             <img src="/img-comics/img-tp-comics.jpg" alt="" class="w-full h-full">
         </section>
-        <section id="search-cont" class="h-80 bg-emerald-500 w-full p-4 flex flex-col gap-4">
-            <h2 class="text-2xl">
+     <!--Search section-->   
+        <section id="search-cont" class="bg-black h-80 w-full p-4 flex flex-col gap-4 lg:flex-row lg:justify-evenly xl:flex-row">
+            <div class="flex flex-col w-full gap-2 lg:w-1/2">
+             <h2 class="text-2xl text-emerald-500">
                 Búsqueda
-            </h2>
-            <div class="flex items-center gap-2">
-             <i class="fa-solid fa-magnifying-glass text-2xl"></i>
-             <input type="text" placeholder="Ingresá tu búsqueda" class="w-full h-12 border-b-4 border-green-900">
+             </h2>
+             <div class="flex items-center gap-2">
+              <i class="fa-solid fa-magnifying-glass text-2xl text-violet-800"></i>
+              <input type="text" placeholder="Ingresá tu búsqueda" class="w-full h-12 border-b-4 border-emerald-500 bg-black">
+             </div>
             </div>
-            <div class="flex flex-col items-center gap-4">
-                <div class="flex justify-between bg-amber-300 w-full">
-                    <label class="text-gray-500 text-base font-medium">TIPO</label>
-                    <select>
+            <div class="flex flex-col items-center gap-4  md:flex md:flex">
+                <div class="flex justify-between w-full md:w-96 md:flex md:gap-4 lg:w-1/2 lg:mt-12 lg:gap-2">
+                    <label class="text-emerald-500 font-medium self-center">TIPO</label>
+                    <select class="bg-black text-white">
                         <option value="">Comics</option>
                         <option value="">Personajes</option>
                     </select>
                 
-                    <label class="text-gray-500 text-base font-medium">ORDEN</label>
-                    <select>
+                    <label class="text-emerald-500 font-medium self-center">ORDEN</label>
+                    <select class="bg-black text-white">
                         <option value="">A-Z</option>
                         <option value="">Z-A</option>
                         <option value="">Más nuevo</option>
                         <option value="">Más viejo</option>
                     </select>
+                    <button class="rounded-md p-2 bg-emerald-500 text-lg flex self-end">Buscar</button>
                 </div>
-                <button class="rounded-md p-2 bg-slate-500 text-lg flex self-end">Buscar</button>
+                
             </div>
         </section>
-    </main>
+    <!--End search section-->
+    <!--Results section-->
+    <section id="results-section flex flex-col gap-4 w-full h-full">
+        <h2 class="flex self-end text-xl">Resultados</h2>
+        <div id="render-results">
 
+        </div>
+        <div class="flex gap-4">
+            <button class=""><i class="fa-solid fa-angles-left"></i></button>
+            <button class=""><i class="fa-solid fa-angle-left"></i></button>
+            <button class=""><i class="fa-solid fa-angle-right"></i></button>
+            <button class=""><i class="fa-solid fa-angles-right"></i></button>
+        </div>
+    </section>
+    <!--End results section-->
+    <!--Footer-->
+    <footer class="bg-zinc-950 w-full h-24 flex justify-center items-center">
+        <p class="text-white">Hecho con <span class="text-violet-800">♥</span> por Sofi</p>
+    </footer>
+    </main>
+    <!--End footer-->
 
     <script src="js/app.js"></script>
 </body>
