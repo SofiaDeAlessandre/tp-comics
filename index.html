@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gradient-to-r from-black via-purple-500 to-pink-500">
     <!--HEADER-->
-    <header class="bg-zinc-950 w-full h-20 flex justify-center">
-        <div class="w-56 h-full flex items-center justify-center">
-            <h1 class="text-emerald-500 text-4xl">ADA COMICS</h1>
+    <header class="w-full h-20 flex justify-center">
+        <div class="w-64 h-full flex items-center justify-center">
+            <h1 class="text-emerald-400 text-4xl font-bold">ADA COMICS</h1>
         </div>
     </header>
     <!--END HEADER-->
@@ -22,53 +22,54 @@
             <img src="/img-comics/img-tp-comics.jpg" alt="" class="w-full h-full">
         </section>
      <!--Search section-->   
-        <section id="search-cont" class="bg-black h-80 w-full p-4 flex flex-col gap-4 lg:flex-row lg:justify-evenly xl:flex-row">
+        <section id="search-cont" class="h-64 w-full p-4 flex flex-col gap-4 lg:flex-row lg:justify-evenly xl:flex-row">
             <div class="flex flex-col w-full gap-2 lg:w-1/2">
-             <h2 class="text-2xl text-emerald-500">
+             <h2 class="text-2xl text-emerald-400">
                 Búsqueda
              </h2>
              <div class="flex items-center gap-2">
               <i class="fa-solid fa-magnifying-glass text-2xl text-violet-800"></i>
-              <input type="text" placeholder="Ingresá tu búsqueda" class="w-full h-12 border-b-4 border-emerald-500 bg-black">
+              <input type="text" placeholder="Ingresá tu búsqueda" class="w-full h-12 border-b-4 border-emerald-400 bg-transparent">
              </div>
             </div>
             <div class="flex flex-col items-center gap-4  md:flex md:flex">
                 <div class="flex justify-between w-full md:w-96 md:flex md:gap-4 lg:w-1/2 lg:mt-12 lg:gap-2">
-                    <label class="text-emerald-500 font-medium self-center">TIPO</label>
-                    <select class="bg-black text-white">
+                    <label class="text-emerald-400 font-medium self-center">TIPO</label>
+                    <select class="text-white bg-transparent to-pink-500 rounded-md border-emerald-400 border-2">
                         <option value="">Comics</option>
                         <option value="">Personajes</option>
                     </select>
                 
-                    <label class="text-emerald-500 font-medium self-center">ORDEN</label>
-                    <select class="bg-black text-white">
+                    <label class="text-emerald-400 font-medium self-center">ORDEN</label>
+                    <select class="text-white bg-transparent to-pink-500 rounded-md border-emerald-400 border-2">
                         <option value="">A-Z</option>
                         <option value="">Z-A</option>
                         <option value="">Más nuevo</option>
                         <option value="">Más viejo</option>
                     </select>
-                    <button class="rounded-md p-2 bg-emerald-500 text-lg flex self-end">Buscar</button>
+                    <button class="rounded-md border-emerald-400 p-2 bg-transparent text-lg text-white flex self-end">Buscar</button>
                 </div>
                 
             </div>
         </section>
     <!--End search section-->
     <!--Results section-->
-    <section id="results-section flex flex-col gap-4 w-full h-full">
-        <h2 class="flex self-end text-xl">Resultados</h2>
-        <div id="render-results">
-
+    <section id="results-section" class="flex flex-col justify-center gap-y-4 w-full h-full">
+        <h2 class="flex self-center text-xl text-white">Resultados</h2>
+        <!--RENDER FROM JS-->
+        <div id="render-cards" class="grid grid-cols-5 gap-4">
+            
         </div>
-        <div class="flex gap-4">
-            <button class=""><i class="fa-solid fa-angles-left"></i></button>
-            <button class=""><i class="fa-solid fa-angle-left"></i></button>
-            <button class=""><i class="fa-solid fa-angle-right"></i></button>
-            <button class=""><i class="fa-solid fa-angles-right"></i></button>
+        <div class="flex justify-center gap-4 w-full">
+            <button class=""><i class="fa-solid fa-angles-left text-emerald-400"></i></button>
+            <button class=""><i class="fa-solid fa-angle-left text-emerald-400"></i></button>
+            <button class=""><i class="fa-solid fa-angle-right text-emerald-400"></i></button>
+            <button class=""><i class="fa-solid fa-angles-right text-emerald-400"></i></button>
         </div>
     </section>
     <!--End results section-->
     <!--Footer-->
-    <footer class="bg-zinc-950 w-full h-24 flex justify-center items-center">
+    <footer class="w-full h-24 flex justify-center items-center">
         <p class="text-white">Hecho con <span class="text-violet-800">♥</span> por Sofi</p>
     </footer>
     </main>
