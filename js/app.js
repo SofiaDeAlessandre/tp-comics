@@ -4,8 +4,11 @@ const ts = `ts=1`
 const publicKey = "&apikey=61f276d1838483b47e28b9120ccfc29e"
 const hash = "&hash=c56011d7230c43adadab65f4f70e2111"
 
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => document.querySelectorAll(selector);
+const $ = (selector) => document.querySelector(selector)
+const $$ = (selector) => document.querySelectorAll(selector)
+
+const showElement = (selector) => $(selector).classList.remove("hidden")
+const hideElement = (selector) => $(selector).classList.add("hidden")
 //_________________________________
 const getCharacters = async() =>{
  const url = `${urlBase}characters?${ts}${publicKey}${hash}`
@@ -24,14 +27,22 @@ const getComics = async() =>{
    }
 getComics()
 
+const getComicDetail = async(comicId) => {
+    const url = `${urlBase}comics/${comicId}`
+    const response = await fetch(url)
+    const data = await response.json()
+    console.log(data)
+    return data
+   }
+
 /* RENDERS */
 const renderComics = async() => {
     const comics = await getComics()
     $("#render-cards").innerHTML += ``
     for(let comic of comics){
         $("#render-cards").innerHTML += `
-        <div class="bg-black rounded-lg flex justify-center flex-col gap-y-2">
-         <img src="${comic.thumbnail.path}/portrait_xlarge.${comic.thumbnail.extension}" alt="">
+        <div onclick="getComicDetail(${comic.id})" class="flex justify-center flex-col gap-y-2">
+         <img class="rounded-md" src="${comic.thumbnail.path}/portrait_xlarge.${comic.thumbnail.extension}" alt="">
          <p class="font-bold text-white">${comic.title}</p>
         </div>
         `
@@ -39,3 +50,16 @@ const renderComics = async() => {
 }
 renderComics()
 
+const renderComic = () => {
+    hideElement("#render-cards")
+    showElement("#render-cards-detail")
+    $("#render-cards-detail").innerHTML = `<p>Hola</p>`
+}
+
+
+
+/* EVENTS */
+
+$("#input-search").addEventListener("input", () => {
+    renderComics($("#input-search").value)
+})

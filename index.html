@@ -29,23 +29,23 @@
              </h2>
              <div class="flex items-center gap-2">
               <i class="fa-solid fa-magnifying-glass text-2xl text-violet-800"></i>
-              <input type="text" placeholder="Ingresá tu búsqueda" class="w-full h-12 border-b-4 border-emerald-400 bg-transparent">
+              <input id="input-search" type="text" placeholder="Ingresá tu búsqueda" class="w-full h-12 border-b-4 border-emerald-400 bg-transparent text-white">
              </div>
             </div>
             <div class="flex flex-col items-center gap-4  md:flex md:flex">
                 <div class="flex justify-between w-full md:w-96 md:flex md:gap-4 lg:w-1/2 lg:mt-12 lg:gap-2">
                     <label class="text-emerald-400 font-medium self-center">TIPO</label>
                     <select class="text-white bg-transparent to-pink-500 rounded-md border-emerald-400 border-2">
-                        <option value="">Comics</option>
-                        <option value="">Personajes</option>
+                        <option class="text-violet-800" value="comics" selected>Comics</option>
+                        <option class="text-violet-800" value="characters">Personajes</option>
                     </select>
                 
-                    <label class="text-emerald-400 font-medium self-center">ORDEN</label>
+                    <label class="text-white font-medium self-center">ORDEN</label>
                     <select class="text-white bg-transparent to-pink-500 rounded-md border-emerald-400 border-2">
-                        <option value="">A-Z</option>
-                        <option value="">Z-A</option>
-                        <option value="">Más nuevo</option>
-                        <option value="">Más viejo</option>
+                        <option class="text-violet-800" value="">A-Z</option>
+                        <option class="text-violet-800" value="">Z-A</option>
+                        <option class="text-violet-800" value="">Más nuevo</option>
+                        <option class="text-violet-800" value="">Más viejo</option>
                     </select>
                     <button class="rounded-md border-emerald-400 p-2 bg-transparent text-lg text-white flex self-end">Buscar</button>
                 </div>
@@ -59,6 +59,9 @@
         <!--RENDER FROM JS-->
         <div id="render-cards" class="grid grid-cols-5 gap-4">
             
+        </div>
+        <div id="render-cards-detail" class="hidden">
+
         </div>
         <div class="flex justify-center gap-4 w-full">
             <button class=""><i class="fa-solid fa-angles-left text-emerald-400"></i></button>
