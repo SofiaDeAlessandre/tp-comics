@@ -28,11 +28,11 @@ const getComics = async() =>{
 getComics()
 
 const getComicDetail = async(comicId) => {
-    const url = `${urlBase}comics/${comicId}`
+    const url = `${urlBase}comics/${comicId}?${ts}${publicKey}${hash}`
     const response = await fetch(url)
     const data = await response.json()
-    console.log(data)
-    return data
+    console.log(data.data.results)
+    return data.data.results
    }
 
 /* RENDERS */
@@ -41,7 +41,7 @@ const renderComics = async() => {
     $("#render-cards").innerHTML += ``
     for(let comic of comics){
         $("#render-cards").innerHTML += `
-        <div onclick="getComicDetail(${comic.id})" class="flex justify-center flex-col gap-y-2">
+        <div onclick="renderComic(getComicDetail(${comic.id}))" class="flex justify-center flex-col gap-y-2">
          <img class="rounded-md" src="${comic.thumbnail.path}/portrait_xlarge.${comic.thumbnail.extension}" alt="">
          <p class="font-bold text-white">${comic.title}</p>
         </div>
@@ -50,12 +50,11 @@ const renderComics = async() => {
 }
 renderComics()
 
-const renderComic = () => {
+const renderComic = (dataDelComic) => {
     hideElement("#render-cards")
     showElement("#render-cards-detail")
-    $("#render-cards-detail").innerHTML = `<p>Hola</p>`
+    $("#render-cards-detail").innerHTML = `<h3>${dataDelComic.title}</h3>`
 }
-
 
 
 /* EVENTS */
