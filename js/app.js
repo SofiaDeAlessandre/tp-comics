@@ -50,15 +50,38 @@ const renderComics = async() => {
 }
 renderComics()
 
-const renderComic = (dataDelComic) => {
+const renderComic = async() => {
+    const comic = await getComics()
     hideElement("#render-cards")
     showElement("#render-cards-detail")
-    $("#render-cards-detail").innerHTML = `<h3>${dataDelComic.title}</h3>`
+    for(let com of comic){
+    $("#render-cards-detail").innerHTML = `
+    <div class="flex justify-center gap-4">
+        <div>
+             <img src="${com.thumbnail.path}/portrait_xlarge.${com.thumbnail.extension}" alt="">
+       </div>
+       <div class="flex flex-col gap-6">
+           <h3>${com.title}</h3>
+           <p>Publicado:</p>
+           <p>Guionistas:${com.creators}</p>
+           <p>Descripción:${com.description}</p>
+       </div>
+   </div>
+   <h4>Personajes</h4>
+   <h5>Resultados</h5>
+    <div class="grid grid-cols-5">
+     <div>
+        <img src="" alt="">
+        <p>${com.characters}</p>
+     </div>
+    </div>`
+    }
 }
+
 
 
 /* EVENTS */
 
-$("#input-search").addEventListener("input", () => {
-    renderComics($("#input-search").value)
-})
+// $("#input-search").addEventListener("input", () => {
+//     renderComics($("#input-search").value)
+// })
