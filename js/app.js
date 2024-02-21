@@ -18,6 +18,14 @@ const getCharacters = async() =>{
 }
 getCharacters()
 
+const getCharacterDetail = async(characterId) => {
+    const url = `${urlBase}characters/${characterId}?${ts}${publicKey}${hash}`
+    const response = await fetch(url)
+    const data = await response.json()
+    console.log(data.data.results)
+    return data.data.results
+   }
+
 const getComics = async() =>{
     const url = `${urlBase}comics?${ts}${publicKey}${hash}`
     const response = await fetch(url)
@@ -72,7 +80,51 @@ const renderComic = async() => {
     <div class="grid grid-cols-5">
      <div>
         <img src="" alt="">
-        <p>${com.characters}</p>
+        <p>${com.characters.items}</p>
+     </div>
+    </div>`
+    }
+}
+
+const renderCharacters = async() => {
+    const characters = await getCharacters()
+    $("#render-characters").innerHTML += ``
+    for(let character of characters){
+        $("#render-characters").innerHTML += `
+        <div onclick="renderCharacter(getCharacterDetail(${character.id}))" class="flex justify-center flex-col gap-y-2">
+         <img class="rounded-md" src="${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}" alt="">
+         <p class="font-bold text-white">${character.name}</p>
+        </div>
+        `
+    }
+}
+renderCharacters()
+
+const renderCharacter = async() => {
+    const character = await getCharacters()
+    hideElement("#render-cards")
+    hideElement("#render-cards-detail")
+    hideElement("#render-characters")
+    showElement("#render-characters-detail")
+    for(let ch of character){
+    $("#render-characters-detail").innerHTML = `
+    <div class="flex justify-center gap-4">
+        <div>
+             <img src="${ch.thumbnail.path}/portrait_xlarge.${ch.thumbnail.extension}" alt="">
+       </div>
+       <div class="flex flex-col gap-6">
+           <h3>${ch.name}</h3>
+           <p>Publicado:</p>
+           <p>Guionistas:${ch.creators}</p>
+           <p>Descripción:${ch.description}</p>
+       </div>
+   </div>
+   <h4>Personajes</h4>
+   <h5>Resultados</h5>
+    <div class="grid grid-cols-5">
+     <div>
+        <img src="" alt="">
+        <p>${ch.comics}</p>
      </div>
     </div>`
     }
