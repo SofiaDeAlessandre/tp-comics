@@ -11,9 +11,10 @@ const showElement = (selector) => $(selector).classList.remove("hidden")
 const hideElement = (selector) => $(selector).classList.add("hidden")
 
 
-//_________________________________
+//_________________________________CHARACTERS
 const getCharacters = async(name) =>{
     let existName = name? `&nameStartsWith=${name}` :""
+    //let searchedExist = searched? `&orderBy=${searched}` :""
  const url = `${urlBase}characters?${ts}${publicKey}${hash}${existName}`
  const response = await fetch(url)
  const data = await response.json()
@@ -21,15 +22,8 @@ const getCharacters = async(name) =>{
 }
 getCharacters()
 
-const getCharacterDetail = async(characterId) => {
-    const url = `${urlBase}characters/${characterId}?${ts}${publicKey}${hash}`
-    const response = await fetch(url)
-    const data = await response.json()
-    console.log(data.data.results)
-    return data.data.results
-   }
-
-const getComics = async(title, searched) =>{
+//_________________________________COMICS
+const getComics = async(title) =>{
     let existTitle = title? `&titleStartsWith=${title}` :""
     const url = `${urlBase}comics?${ts}${publicKey}${hash}${existTitle}`
     const response = await fetch(url)
@@ -39,21 +33,56 @@ const getComics = async(title, searched) =>{
    }
 getComics()
 
-const getComicDetail = async(comicId) => {
-    const url = `${urlBase}comics/${comicId}?${ts}${publicKey}${hash}`
-    const response = await fetch(url)
-    const data = await response.json()
-    console.log(data.data.results)
-    return data.data.results
-   }
 
-/* RENDERS */
-const renderComics = async(title, searched) => {
-    const comics = await getComics(title, searched)
+//_________________________________________________
+/* RENDERS */ 
+//_______________________________________________RENDER COMICS
+
+
+const renderComic = async(data) => {
+    hideElement("#render-cards")
+    showElement("#render-cards-detail")
+    const arrComic = data[0].creators.items
+    let comicsCreators = ""
+    for(let arr of arrComic){
+     comicsCreators += `${arr.name}, `
+    }
+    // const arrCharacters = data[0].characters.items
+    // console.log(arrCharacters)
+    // let charactersOfComics = ""
+    // for (let arr of charactersOfComics){
+
+    // }
+    
+    $("#render-cards-detail").innerHTML = `
+    <div class="flex justify-center gap-4">
+        <div>
+             <img src="${data[0].thumbnail.path}/portrait_xlarge.${data[0].thumbnail.extension}" alt="">
+       </div>
+       <div class="flex flex-col gap-6">
+           <h3>${data[0].title}</h3>
+           <p>Publicado: ${data[0].dates[0].date}</p>
+           <p>Guionistas:${comicsCreators}</p>
+           <p>Descripción:${data[0].description}</p>
+       </div>
+   </div>
+   <h4>Personajes</h4>
+   <h5>Resultados</h5>
+    <div class="grid grid-cols-5">
+     <div>
+        <img src="" alt="">
+        <p>${data[0].characters.collectionURI}</p>
+     </div>
+    </div>`
+}
+
+
+const renderComics = async(title) => {
+    const comics = await getComics(title)
     $("#render-cards").innerHTML = ""
     for(let comic of comics){
         $("#render-cards").innerHTML += `
-        <div onclick="renderComic(getComicDetail(${comic.id}))" class="flex justify-center flex-col gap-y-2">
+        <div onclick="getComicDetail(${comic.id})" class="flex justify-center flex-col gap-y-2">
          <img class="rounded-md" src="${comic.thumbnail.path}/portrait_xlarge.${comic.thumbnail.extension}" alt="">
          <p class="font-bold text-white">${comic.title}</p>
         </div>
@@ -62,32 +91,42 @@ const renderComics = async(title, searched) => {
 }
 renderComics()
 
-const renderComic = async() => {
-    const comic = await getComics()
+const getComicDetail = async(comicId) => {
+        const url = `${urlBase}comics/${comicId}?${ts}${publicKey}${hash}`
+        const response = await fetch(url)
+        const data = await response.json()
+        renderComic(data.data.results)
+        return data.data.results
+       }
+
+//___________________________________________RENDER CHARACTERS
+
+
+const renderCharacter = async(data) => {
+    //const character = await getCharacters(name)
     hideElement("#render-cards")
-    showElement("#render-cards-detail")
-    for(let com of comic){
-    $("#render-cards-detail").innerHTML = `
+    hideElement("#render-cards-detail")
+    hideElement("#render-characters")
+    showElement("#render-characters-detail")
+    
+    $("#render-characters-detail").innerHTML = `
     <div class="flex justify-center gap-4">
         <div>
-             <img src="${com.thumbnail.path}/portrait_xlarge.${com.thumbnail.extension}" alt="">
+             <img src="${data[0].thumbnail.path}/portrait_xlarge.${data[0].thumbnail.extension}" alt="">
        </div>
        <div class="flex flex-col gap-6">
-           <h3>${com.title}</h3>
-           <p>Publicado:</p>
-           <p>Guionistas:${com.creators}</p>
-           <p>Descripción:${com.description}</p>
+           <h3>${data[0].name}</h3>
        </div>
    </div>
-   <h4>Personajes</h4>
+   <p>COMICS</p>
    <h5>Resultados</h5>
     <div class="grid grid-cols-5">
      <div>
         <img src="" alt="">
-        <p>${com.characters.items}</p>
+        <p>${data[0].comics}</p>
      </div>
     </div>`
-    }
+  
 }
 
 const renderCharacters = async(name) => {
@@ -95,7 +134,7 @@ const renderCharacters = async(name) => {
     $("#render-characters").innerHTML = ""
     for(let character of characters){
         $("#render-characters").innerHTML += `
-        <div onclick="renderCharacter(getCharacterDetail(${character.id}))" class="flex justify-center flex-col gap-y-2">
+        <div onclick="getCharacterDetail(${character.id})" class="flex justify-center flex-col gap-y-2">
          <img class="rounded-md" src="${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}" alt="">
          <p class="font-bold text-white">${character.name}</p>
         </div>
@@ -104,36 +143,13 @@ const renderCharacters = async(name) => {
 }
 renderCharacters()
 
-const renderCharacter = async(name) => {
-    const character = await getCharacters(name)
-    hideElement("#render-cards")
-    hideElement("#render-cards-detail")
-    hideElement("#render-characters")
-    showElement("#render-characters-detail")
-    for(let ch of character){
-    $("#render-characters-detail").innerHTML = `
-    <div class="flex justify-center gap-4">
-        <div>
-             <img src="${ch.thumbnail.path}/portrait_xlarge.${ch.thumbnail.extension}" alt="">
-       </div>
-       <div class="flex flex-col gap-6">
-           <h3>${ch.name}</h3>
-           <p>Publicado:</p>
-           <p>Guionistas:${ch.creators}</p>
-           <p>Descripción:${ch.description}</p>
-       </div>
-   </div>
-   <h4>Personajes</h4>
-   <h5>Resultados</h5>
-    <div class="grid grid-cols-5">
-     <div>
-        <img src="" alt="">
-        <p>${ch.comics}</p>
-     </div>
-    </div>`
-    }
-}
-
+const getCharacterDetail = async(characterId) => {
+    const url = `${urlBase}characters/${characterId}?${ts}${publicKey}${hash}`
+    const response = await fetch(url)
+    const data = await response.json()
+    renderCharacter(data.data.results)
+    return data.data.results
+   }
 
 
 /* EVENTS */
@@ -146,8 +162,16 @@ $("#select-type").addEventListener("input", () => {
     if ($("#select-type").value == "characters"){
         showElement("#render-characters")
         hideElement("#render-cards")
+        hideElement("#render-cards-detail")
     } else{
         showElement("#render-cards")
         hideElement("#render-characters")
+        hideElement("#render-characters-detail")
     }
 })
+// $("#select-order").addEventListener("input", () => {
+//     //renderComics($("#search-input").value , $("#select-order").value)
+//     renderComics($("#search-input").value)
+//     console.log($("#select-order").value)
+//     //renderCharacters($("#search-input").value), $("#select-order").value
+// })
