@@ -9,9 +9,12 @@ const $$ = (selector) => document.querySelectorAll(selector)
 
 const showElement = (selector) => $(selector).classList.remove("hidden")
 const hideElement = (selector) => $(selector).classList.add("hidden")
+
+
 //_________________________________
-const getCharacters = async() =>{
- const url = `${urlBase}characters?${ts}${publicKey}${hash}`
+const getCharacters = async(name) =>{
+    let existName = name? `&nameStartsWith=${name}` :""
+ const url = `${urlBase}characters?${ts}${publicKey}${hash}${existName}`
  const response = await fetch(url)
  const data = await response.json()
  return(data.data.results);
@@ -26,8 +29,9 @@ const getCharacterDetail = async(characterId) => {
     return data.data.results
    }
 
-const getComics = async() =>{
-    const url = `${urlBase}comics?${ts}${publicKey}${hash}`
+const getComics = async(title, searched) =>{
+    let existTitle = title? `&titleStartsWith=${title}` :""
+    const url = `${urlBase}comics?${ts}${publicKey}${hash}${existTitle}`
     const response = await fetch(url)
     const data = await response.json()
     console.log(data.data.results);
@@ -44,9 +48,9 @@ const getComicDetail = async(comicId) => {
    }
 
 /* RENDERS */
-const renderComics = async() => {
-    const comics = await getComics()
-    $("#render-cards").innerHTML += ``
+const renderComics = async(title, searched) => {
+    const comics = await getComics(title, searched)
+    $("#render-cards").innerHTML = ""
     for(let comic of comics){
         $("#render-cards").innerHTML += `
         <div onclick="renderComic(getComicDetail(${comic.id}))" class="flex justify-center flex-col gap-y-2">
@@ -86,9 +90,9 @@ const renderComic = async() => {
     }
 }
 
-const renderCharacters = async() => {
-    const characters = await getCharacters()
-    $("#render-characters").innerHTML += ``
+const renderCharacters = async(name) => {
+    const characters = await getCharacters(name)
+    $("#render-characters").innerHTML = ""
     for(let character of characters){
         $("#render-characters").innerHTML += `
         <div onclick="renderCharacter(getCharacterDetail(${character.id}))" class="flex justify-center flex-col gap-y-2">
@@ -100,8 +104,8 @@ const renderCharacters = async() => {
 }
 renderCharacters()
 
-const renderCharacter = async() => {
-    const character = await getCharacters()
+const renderCharacter = async(name) => {
+    const character = await getCharacters(name)
     hideElement("#render-cards")
     hideElement("#render-cards-detail")
     hideElement("#render-characters")
@@ -134,6 +138,16 @@ const renderCharacter = async() => {
 
 /* EVENTS */
 
-// $("#input-search").addEventListener("input", () => {
-//     renderComics($("#input-search").value)
-// })
+$("#input-search").addEventListener("input", () => {
+    renderComics($("#input-search").value)
+    renderCharacters($("#input-search").value)
+})
+$("#select-type").addEventListener("input", () => {
+    if ($("#select-type").value == "characters"){
+        showElement("#render-characters")
+        hideElement("#render-cards")
+    } else{
+        showElement("#render-cards")
+        hideElement("#render-characters")
+    }
+})

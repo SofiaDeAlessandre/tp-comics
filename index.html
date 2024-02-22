@@ -35,17 +35,17 @@
             <div class="flex flex-col items-center gap-4  md:flex md:flex">
                 <div class="flex justify-between w-full md:w-96 md:flex md:gap-4 lg:w-1/2 lg:mt-12 lg:gap-2">
                     <label class="text-emerald-400 font-medium self-center">TIPO</label>
-                    <select class="text-white bg-transparent to-pink-500 rounded-md border-emerald-400 border-2">
+                    <select id="select-type" class="text-white bg-transparent to-pink-500 rounded-md border-emerald-400 border-2">
                         <option class="text-violet-800" value="comics" selected>Comics</option>
                         <option class="text-violet-800" value="characters">Personajes</option>
                     </select>
                 
                     <label class="text-white font-medium self-center">ORDEN</label>
-                    <select class="text-white bg-transparent to-pink-500 rounded-md border-emerald-400 border-2">
+                    <select id="select-order" class="text-white bg-transparent to-pink-500 rounded-md border-emerald-400 border-2">
                         <option class="text-violet-800" value="">A-Z</option>
                         <option class="text-violet-800" value="">Z-A</option>
-                        <option class="text-violet-800" value="">Más nuevo</option>
-                        <option class="text-violet-800" value="">Más viejo</option>
+                        <option class="text-violet-800" value="modified">Más nuevo</option>
+                        <option class="text-violet-800" value="-modified">Más viejo</option>
                     </select>
                     <button id="btn" class="rounded-md border-emerald-400 p-2 bg-transparent text-lg text-white flex self-end">Buscar</button>
                 </div>
@@ -63,7 +63,7 @@
         <div id="render-cards-detail" class="hidden w-full h-96 bg-green-500 flex flex-col items-center">
             
         </div>
-        <div id="render-characters" class="grid grid-cols-5 gap-4">
+        <div id="render-characters" class="hidden grid grid-cols-5 gap-4">
             
         </div>
         <div id="render-characters-detail" class="hidden w-full h-96 bg-green-500 flex flex-col items-center">
