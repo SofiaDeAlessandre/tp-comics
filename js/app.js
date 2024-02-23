@@ -10,6 +10,7 @@ const $$ = (selector) => document.querySelectorAll(selector)
 const showElement = (selector) => $(selector).classList.remove("hidden")
 const hideElement = (selector) => $(selector).classList.add("hidden")
 
+let offset = 0
 
 //_________________________________CHARACTERS
 const getCharacters = async(name) =>{
@@ -22,13 +23,15 @@ const getCharacters = async(name) =>{
 }
 getCharacters()
 
-//_________________________________COMICS
-const getComics = async(title) =>{
+//_________________________________COMICS PRUEBA DE OFFSET PARA COMICS
+const getComics = async(title, offset) =>{
     let existTitle = title? `&titleStartsWith=${title}` :""
-    const url = `${urlBase}comics?${ts}${publicKey}${hash}${existTitle}`
+    let existOffset = offset? `&offset=${offset}` :""
+    const url = `${urlBase}comics?${ts}${publicKey}${hash}${existTitle}${existOffset}`
     const response = await fetch(url)
     const data = await response.json()
     console.log(data.data.results);
+    console.log(url)
     return data.data.results
    }
 getComics()
@@ -77,8 +80,8 @@ const renderComic = async(data) => {
 }
 
 
-const renderComics = async(title) => {
-    const comics = await getComics(title)
+const renderComics = async(title, offset) => {
+    const comics = await getComics(title, offset)
     $("#render-cards").innerHTML = ""
     for(let comic of comics){
         $("#render-cards").innerHTML += `
@@ -175,3 +178,11 @@ $("#select-type").addEventListener("input", () => {
 //     console.log($("#select-order").value)
 //     //renderCharacters($("#search-input").value), $("#select-order").value
 // })
+// $("#prev").onclick = function (e) {
+//     offset -= 20
+//     getComics()
+// }
+$("#next").addEventListener("click", () => {
+    offset = 17
+    getComics()
+})
