@@ -24,14 +24,16 @@ const getCharacters = async(name) =>{
 getCharacters()
 
 //_________________________________COMICS PRUEBA DE OFFSET PARA COMICS
-const getComics = async(title, offset) =>{
+const getComics = async(title, searched, offset) =>{
     let existTitle = title? `&titleStartsWith=${title}` :""
-    let existOffset = offset? `&offset=${offset}` :""
-    const url = `${urlBase}comics?${ts}${publicKey}${hash}${existTitle}${existOffset}`
+    let existOffset = offset? `&offset=${offset}` : ""
+    let searchedExist = searched? `&orderBy=${searched}` :""
+    //let offsetOffset = offsetOffset? `&offset=${offset}` :""
+    const url = `${urlBase}comics?${ts}${publicKey}${hash}${existTitle}${searchedExist}${existOffset}`
     const response = await fetch(url)
     const data = await response.json()
     console.log(data.data.results);
-    console.log(url)
+    console.log(data.data)
     return data.data.results
    }
 getComics()
@@ -80,8 +82,8 @@ const renderComic = async(data) => {
 }
 
 
-const renderComics = async(title, offset) => {
-    const comics = await getComics(title, offset)
+const renderComics = async(title, searched, offset) => {
+    const comics = await getComics(title, searched, offset)
     $("#render-cards").innerHTML = ""
     for(let comic of comics){
         $("#render-cards").innerHTML += `
@@ -172,17 +174,23 @@ $("#select-type").addEventListener("input", () => {
         hideElement("#render-characters-detail")
     }
 })
-// $("#select-order").addEventListener("input", () => {
-//     //renderComics($("#search-input").value , $("#select-order").value)
-//     renderComics($("#search-input").value)
-//     console.log($("#select-order").value)
-//     //renderCharacters($("#search-input").value), $("#select-order").value
-// })
-// $("#prev").onclick = function (e) {
-//     offset -= 20
-//     getComics()
-// }
-$("#next").addEventListener("click", () => {
-    offset = 17
-    getComics()
+$("#select-order").addEventListener("input", () => {
+    //renderComics($("#search-input").value , $("#select-order").value)
+    renderComics($("#input-search").value, $("#select-order").value)
+    console.log($("#select-order").value)
+    //renderCharacters($("#search-input").value), $("#select-order").value
 })
+$("#next").addEventListener("click", () => {
+    offset += 20
+    console.log("hola")
+    renderComics($("#input-search").value, $("#select-order").value, offset)
+     })
+// $("#next").onclick = function (e) {
+//     offset += 20
+//     console.log("hola")
+//     renderComics($("#input-search").value, $("#select-order").value, offset)
+// }
+$("#prev").addEventListener("click", () => {
+    offset -= 20
+    renderComics($("#input-search").value, $("#select-order").value, offset)
+     })
