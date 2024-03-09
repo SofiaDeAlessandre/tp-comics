@@ -3,7 +3,7 @@ const urlBase = `http://gateway.marvel.com/v1/public/`
 const ts = `ts=1`
 const publicKey = "&apikey=61f276d1838483b47e28b9120ccfc29e"
 const hash = "&hash=c56011d7230c43adadab65f4f70e2111"
-
+//?ts=1&apikey=61f276d1838483b47e28b9120ccfc29e&hash=c56011d7230c43adadab65f4f70e2111
 const $ = (selector) => document.querySelector(selector)
 const $$ = (selector) => document.querySelectorAll(selector)
 
@@ -13,10 +13,11 @@ const hideElement = (selector) => $(selector).classList.add("hidden")
 let offset = 0
 
 //_________________________________CHARACTERS
-const getCharacters = async(name) =>{
+const getCharacters = async(name, searched) =>{
     let existName = name? `&nameStartsWith=${name}` :""
+    let searchedExist = searched? `&orderBy=${searched}` :""
     //let searchedExist = searched? `&orderBy=${searched}` :""
- const url = `${urlBase}characters?${ts}${publicKey}${hash}${existName}`
+ const url = `${urlBase}characters?${ts}${publicKey}${hash}${existName}${searchedExist}`
  const response = await fetch(url)
  const data = await response.json()
  return(data.data.results);
@@ -48,16 +49,23 @@ const renderComic = async(data) => {
     hideElement("#render-cards")
     showElement("#render-cards-detail")
     const arrComic = data[0].creators.items
+    const infoNecesariaComic = `${urlBase}comics/${data[0].id}/characters?offset=${offset}&limit=20&${ts}${publicKey}${hash}`
+    const response = await fetch(infoNecesariaComic)
+    const data2 = await response.json()
+    console.log(data2.data.results)
+    const arrCharacters = data2.data.results
+    let charactersComic = ""
+
+    for (let arr of arrCharacters){
+        console.log(arr)
+        charactersComic += `${arr.name}, `
+    }
+
+
     let comicsCreators = ""
     for(let arr of arrComic){
      comicsCreators += `${arr.name}, `
     }
-    // const arrCharacters = data[0].characters.items
-    // console.log(arrCharacters)
-    // let charactersOfComics = ""
-    // for (let arr of charactersOfComics){
-
-    // }
     
     $("#render-cards-detail").innerHTML = `
     <div class="flex justify-center gap-4">
@@ -76,7 +84,7 @@ const renderComic = async(data) => {
     <div class="grid grid-cols-5">
      <div>
         <img src="" alt="">
-        <p>${data[0].characters.collectionURI}</p>
+        <p class="text-white">${charactersComic}</p>
      </div>
     </div>`
 }
@@ -96,13 +104,27 @@ const renderComics = async(title, searched, offset) => {
 }
 renderComics()
 
+//let infoComic = ""
 const getComicDetail = async(comicId) => {
         const url = `${urlBase}comics/${comicId}?${ts}${publicKey}${hash}`
         const response = await fetch(url)
         const data = await response.json()
         renderComic(data.data.results)
-        return data.data.results
+        console.log(data.data.results)
+        //getCharactersComic(`${data.data.results[0].characters.collectionURI}?${ts}${publicKey}${hash}`)//collectionURI
+         return data.data.results
        }
+       
+
+// const getCharactersComic = async (info) =>{
+//     //const info = await getComicDetail()
+//     //const url = `${info}[0].characters.collectionURI?${ts}${publicKey}${hash}`
+//      const response = await fetch(info)
+//      const data =  await response.json()
+//      console.log(data)
+//     return data
+// }
+// getCharactersComic()
 
 //___________________________________________RENDER CHARACTERS
 
@@ -134,8 +156,8 @@ const renderCharacter = async(data) => {
   
 }
 
-const renderCharacters = async(name) => {
-    const characters = await getCharacters(name)
+const renderCharacters = async(name, searched) => {
+    const characters = await getCharacters(name, searched)
     $("#render-characters").innerHTML = ""
     for(let character of characters){
         $("#render-characters").innerHTML += `
@@ -175,11 +197,28 @@ $("#select-type").addEventListener("input", () => {
     }
 })
 $("#select-order").addEventListener("input", () => {
+    if (("#select-order").value == "title"){
+    $("#change-value").value = "name"
+    //("#select-order").value = changeTitle
+    console.log(("#select-order").value)
+    //renderCharacters($("#input-search").value, $("#select-order").value)
+} 
+     else if (("#select-order").value == "-title") {
+    let changeTitle2 = "-name"
+    ("#select-order").value = changeTitle2
+    //renderCharacters($("#input-search").value, $("#select-order").value)
+    } else {
     //renderComics($("#search-input").value , $("#select-order").value)
     renderComics($("#input-search").value, $("#select-order").value)
     console.log($("#select-order").value)
-    //renderCharacters($("#search-input").value), $("#select-order").value
-})
+    //renderCharacters($("#input-search").value, $("#select-order").value)
+}
+renderCharacters($("#input-search").value, $("#select-order").value)
+}
+)
+
+
+
 $("#next").addEventListener("click", () => {
     offset += 20
     console.log("hola")
