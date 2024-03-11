@@ -11,15 +11,16 @@ const showElement = (selector) => $(selector).classList.remove("hidden")
 const hideElement = (selector) => $(selector).classList.add("hidden")
 
 let offset = 0
-
+let offsetCharacters = 0
 //_________________________________CHARACTERS
-const getCharacters = async(name, searched) =>{
+const getCharacters = async(name, searched, offsetCharacters) =>{
     let existName = name? `&nameStartsWith=${name}` :""
+    let existOffsetCh = offsetCharacters? `&offset=${offsetCharacters}` : ""
     let searchedExist = searched? `&orderBy=${searched}` :""
-    //let searchedExist = searched? `&orderBy=${searched}` :""
- const url = `${urlBase}characters?${ts}${publicKey}${hash}${existName}${searchedExist}`
+ const url = `${urlBase}characters?${ts}${publicKey}${hash}${existName}${searchedExist}${existOffsetCh}`
  const response = await fetch(url)
  const data = await response.json()
+ console.log(data.data)
  return(data.data.results);
 }
 getCharacters()
@@ -29,7 +30,6 @@ const getComics = async(title, searched, offset) =>{
     let existTitle = title? `&titleStartsWith=${title}` :""
     let existOffset = offset? `&offset=${offset}` : ""
     let searchedExist = searched? `&orderBy=${searched}` :""
-    //let offsetOffset = offsetOffset? `&offset=${offset}` :""
     const url = `${urlBase}comics?${ts}${publicKey}${hash}${existTitle}${searchedExist}${existOffset}`
     const response = await fetch(url)
     const data = await response.json()
@@ -104,38 +104,40 @@ const renderComics = async(title, searched, offset) => {
 }
 renderComics()
 
-//let infoComic = ""
+
 const getComicDetail = async(comicId) => {
         const url = `${urlBase}comics/${comicId}?${ts}${publicKey}${hash}`
         const response = await fetch(url)
         const data = await response.json()
         renderComic(data.data.results)
         console.log(data.data.results)
-        //getCharactersComic(`${data.data.results[0].characters.collectionURI}?${ts}${publicKey}${hash}`)//collectionURI
          return data.data.results
        }
        
-
-// const getCharactersComic = async (info) =>{
-//     //const info = await getComicDetail()
-//     //const url = `${info}[0].characters.collectionURI?${ts}${publicKey}${hash}`
-//      const response = await fetch(info)
-//      const data =  await response.json()
-//      console.log(data)
-//     return data
-// }
-// getCharactersComic()
 
 //___________________________________________RENDER CHARACTERS
 
 
 const renderCharacter = async(data) => {
-    //const character = await getCharacters(name)
     hideElement("#render-cards")
     hideElement("#render-cards-detail")
     hideElement("#render-characters")
     showElement("#render-characters-detail")
-    
+    const infoNecesariaCharacter = `${urlBase}characters/${data[0].id}/comics?offset=${offsetCharacters}&limit=20&${ts}${publicKey}${hash}`
+    const response = await fetch(infoNecesariaCharacter)
+    const data2 = await response.json()
+    console.log(data2.data.results)
+    let totalData2 = data2.data.results.length
+    console.log(totalData2)
+    const arrComics = data2.data.results
+    let comicCharacters = ""
+
+    for (let arr of arrComics){
+        console.log(arr)
+        comicCharacters += `${arr.title}, `
+    }
+
+
     $("#render-characters-detail").innerHTML = `
     <div class="flex justify-center gap-4">
         <div>
@@ -147,17 +149,18 @@ const renderCharacter = async(data) => {
    </div>
    <p>COMICS</p>
    <h5>Resultados</h5>
-    <div class="grid grid-cols-5">
+   <p>${totalData2}</p>
+    <div class="gap-4">
      <div>
         <img src="" alt="">
-        <p>${data[0].comics}</p>
+        <p>${comicCharacters}</p>
      </div>
     </div>`
   
 }
 
-const renderCharacters = async(name, searched) => {
-    const characters = await getCharacters(name, searched)
+const renderCharacters = async(name, searched, offsetCharacters) => {
+    const characters = await getCharacters(name, searched, offsetCharacters)
     $("#render-characters").innerHTML = ""
     for(let character of characters){
         $("#render-characters").innerHTML += `
@@ -219,11 +222,27 @@ renderCharacters($("#input-search").value, $("#select-order").value)
 
 
 
-$("#next").addEventListener("click", () => {
-    offset += 20
-    console.log("hola")
-    renderComics($("#input-search").value, $("#select-order").value, offset)
+//$("#next").addEventListener("click", () => {
+    // offset += 20
+    // //offsetCharacters += 20
+    // console.log("hola")
+    // renderComics($("#input-search").value, $("#select-order").value, offset)
+    // //renderCharacters($("#input-search").value, $("#select-order").value, offsetCharacters)
+    //  })
+     $("#next").addEventListener("click", () => {
+    if($("#select-type").value == "comics"){
+        offset += 20
+        console.log(offset)
+        renderComics($("#input-search").value, $("#select-order").value, offset)
+    } else if($("#select-type").value == "characters") {
+        offsetCharacters += 20
+        console.log(offsetCharacters)
+        renderCharacters($("#input-search").value, $("#select-order").value, offsetCharacters)
+        
+    }
      })
+
+
 // $("#next").onclick = function (e) {
 //     offset += 20
 //     console.log("hola")
@@ -232,4 +251,5 @@ $("#next").addEventListener("click", () => {
 $("#prev").addEventListener("click", () => {
     offset -= 20
     renderComics($("#input-search").value, $("#select-order").value, offset)
+    //renderCharacters($("#input-search").value, $("#select-order").value, offsetCharacters)
      })
