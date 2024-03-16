@@ -42,8 +42,6 @@
                 
                     <label class="text-white font-medium self-center">ORDEN</label>
                     <select id="select-order" class="text-white bg-transparent to-pink-500 rounded-md border-emerald-400 border-2">
-                        <option class="text-violet-800" value="title">A-Z</option>
-                        <option class="text-violet-800" value="-title">Z-A</option>
                         <option class="text-violet-800" value="-modified">Más nuevo</option>
                         <option class="text-violet-800" value="modified">Más viejo</option>
                     </select>
@@ -55,7 +53,7 @@
     <!--End search section-->
     <!--Results section-->
     <section id="results-section" class="flex flex-col justify-center gap-y-4 w-full h-full">
-        <h2 class="flex self-center text-xl text-white">Resultados</h2>
+        <h2 id="results-number" class="flex self-center text-xl text-white">Resultados</h2>
         <!--RENDER FROM JS-->
         <div id="render-cards" class="grid grid-cols-5 gap-4">
             
@@ -69,7 +67,7 @@
         <div id="render-characters-detail" class="hidden w-full h-96 bg-green-500 flex flex-col items-center">
             
         </div>
-        <div class="flex justify-center gap-4 w-full">
+        <div id="buttons" class="flex justify-center gap-4 w-full">
             <button id="init" class=""><i class="fa-solid fa-angles-left text-emerald-400"></i></button>
             <button id="prev" class=""><i class="fa-solid fa-angle-left text-emerald-400"></i></button>
             <button id="next" class=""><i class="fa-solid fa-angle-right text-emerald-400"></i></button>

@@ -184,11 +184,11 @@ const getCharacterDetail = async(characterId) => {
 
 /* EVENTS */
 
-$("#input-search").addEventListener("input", () => {
-    renderComics($("#input-search").value)
-    renderCharacters($("#input-search").value)
+$("#input-search").addEventListener("change", () => {
+    //renderComics($("#input-search").value)
+    //renderCharacters($("#input-search").value)
 })
-$("#select-type").addEventListener("input", () => {
+$("#select-type").addEventListener("onchange", () => {
     if ($("#select-type").value == "characters"){
         showElement("#render-characters")
         hideElement("#render-cards")
@@ -199,42 +199,55 @@ $("#select-type").addEventListener("input", () => {
         hideElement("#render-characters-detail")
     }
 })
-$("#select-order").addEventListener("input", () => {
+$("#select-order").addEventListener("onchange", () => {
     if (("#select-order").value == "title"){
     $("#change-value").value = "name"
-    //("#select-order").value = changeTitle
     console.log(("#select-order").value)
-    //renderCharacters($("#input-search").value, $("#select-order").value)
 } 
      else if (("#select-order").value == "-title") {
     let changeTitle2 = "-name"
     ("#select-order").value = changeTitle2
-    //renderCharacters($("#input-search").value, $("#select-order").value)
     } else {
-    //renderComics($("#search-input").value , $("#select-order").value)
-    renderComics($("#input-search").value, $("#select-order").value)
+   // renderComics($("#input-search").value, $("#select-order").value)
     console.log($("#select-order").value)
-    //renderCharacters($("#input-search").value, $("#select-order").value)
 }
-renderCharacters($("#input-search").value, $("#select-order").value)
+//renderCharacters($("#input-search").value, $("#select-order").value)
 }
 )
+$("#btn").addEventListener("click", () => {
+    if ($("#select-type").value == "characters"){
+        showElement("#render-characters")
+        hideElement("#render-cards")
+        hideElement("#render-cards-detail")
+    renderCharacters($("#input-search").value, $("#select-order").value)
+}    else if ($("#select-type").value == "comics"){
+    showElement("#render-cards")
+    hideElement("#render-characters")
+    hideElement("#render-characters-detail")
+        renderComics($("#input-search").value, $("#select-order").value)
 
+    }
+    
+})
 
-
-//$("#next").addEventListener("click", () => {
-    // offset += 20
-    // //offsetCharacters += 20
-    // console.log("hola")
-    // renderComics($("#input-search").value, $("#select-order").value, offset)
-    // //renderCharacters($("#input-search").value, $("#select-order").value, offsetCharacters)
-    //  })
-     $("#next").addEventListener("click", () => {
+$("#init").addEventListener("click", () => {
     if($("#select-type").value == "comics"){
+        offset = 0
+        renderComics($("#input-search").value, $("#select-order").value, offset)
+    } else if($("#select-type").value == "characters") {
+        offsetCharacters = 0
+        console.log(offsetCharacters)
+        renderCharacters($("#input-search").value, $("#select-order").value, offsetCharacters)
+        
+    }
+})
+
+     $("#next").addEventListener("click", () => {
+    if($("#select-type").value == "comics" && offset<3000){
         offset += 20
         console.log(offset)
         renderComics($("#input-search").value, $("#select-order").value, offset)
-    } else if($("#select-type").value == "characters") {
+    } else if($("#select-type").value == "characters" && offsetCharacters<780) {
         offsetCharacters += 20
         console.log(offsetCharacters)
         renderCharacters($("#input-search").value, $("#select-order").value, offsetCharacters)
@@ -243,13 +256,30 @@ renderCharacters($("#input-search").value, $("#select-order").value)
      })
 
 
-// $("#next").onclick = function (e) {
-//     offset += 20
-//     console.log("hola")
-//     renderComics($("#input-search").value, $("#select-order").value, offset)
-// }
-$("#prev").addEventListener("click", () => {
-    offset -= 20
-    renderComics($("#input-search").value, $("#select-order").value, offset)
-    //renderCharacters($("#input-search").value, $("#select-order").value, offsetCharacters)
+     $("#prev").addEventListener("click", () => {
+        if($("#select-type").value == "comics" && offset>0){
+            offset -= 20
+            console.log(offset)
+            renderComics($("#input-search").value, $("#select-order").value, offset)
+        } else if($("#select-type").value == "characters" && offsetCharacters>0) {
+            offsetCharacters -= 20
+            console.log(offsetCharacters)
+            renderCharacters($("#input-search").value, $("#select-order").value, offsetCharacters)
+            
+        }
+         })
+    
+
+     $("#end").addEventListener("click", () => {
+        if($("#select-type").value == "comics"){
+            offset = 30000
+            console.log(offset)
+            renderComics($("#input-search").value, $("#select-order").value, offset)
+        }
+        else if($("#select-type").value == "characters"){
+offsetCharacters = 780
+renderCharacters($("#input-search").value, $("#select-order").value, offsetCharacters)
+        }
+       
      })
+     
