@@ -52,7 +52,7 @@ const renderComic = async(data) => {
     const infoNecesariaComic = `${urlBase}comics/${data[0].id}/characters?offset=${offset}&limit=20&${ts}${publicKey}${hash}`
     const response = await fetch(infoNecesariaComic)
     const data2 = await response.json()
-    console.log(data2.data.results)
+    let resultsData = data2.data.results.length
     const arrCharacters = data2.data.results
     let charactersComic = ""
 
@@ -68,23 +68,23 @@ const renderComic = async(data) => {
     }
     
     $("#render-cards-detail").innerHTML = `
-    <div class="flex justify-center gap-4">
+    <div class="m-2 p-2 gap-y-4 md:flex justify-center gap-4 lg:md:flex justify-center gap-4 xl:md:flex justify-center gap-4">
         <div>
              <img src="${data[0].thumbnail.path}/portrait_xlarge.${data[0].thumbnail.extension}" alt="">
        </div>
        <div class="flex flex-col gap-6">
-           <h3>${data[0].title}</h3>
-           <p>Publicado: ${data[0].dates[0].date}</p>
-           <p>Guionistas:${comicsCreators}</p>
-           <p>Descripción:${data[0].description}</p>
+           <h3><b>${data[0].title}</b></h3>
+           <p><b>Publicado:</b> ${data[0].dates[0].date}</p>
+           <p><b>Guionistas:</b> ${comicsCreators}</p>
+           <p><b>Descripción:</b> ${data[0].description}</p>
        </div>
    </div>
-   <h4>Personajes</h4>
-   <h5>Resultados</h5>
-    <div class="grid grid-cols-5">
+   <h4><b>Personajes</b></h4>
+   <h5>Resultados: ${resultsData}</h5>
+    <div class="">
      <div>
         <img src="" alt="">
-        <p class="text-white">${charactersComic}</p>
+        <p class="text-neutral-500">${charactersComic}</p>
      </div>
     </div>`
 }
@@ -95,9 +95,9 @@ const renderComics = async(title, searched, offset) => {
     $("#render-cards").innerHTML = ""
     for(let comic of comics){
         $("#render-cards").innerHTML += `
-        <div onclick="getComicDetail(${comic.id})" class="flex justify-center flex-col gap-y-2">
+        <div onclick="getComicDetail(${comic.id})" class="m-2 flex justify-center flex-col gap-y-2">
          <img class="rounded-md" src="${comic.thumbnail.path}/portrait_xlarge.${comic.thumbnail.extension}" alt="">
-         <p class="font-bold text-white">${comic.title}</p>
+         <p class="font-semibold text-white">${comic.title}</p>
         </div>
         `
     }
@@ -139,15 +139,15 @@ const renderCharacter = async(data) => {
 
 
     $("#render-characters-detail").innerHTML = `
-    <div class="flex justify-center gap-4">
+    <div class="m-2 p-2 gap-y-4 md:flex justify-center gap-4 lg:md:flex justify-center gap-4 xl:md:flex justify-center gap-4">
         <div>
              <img src="${data[0].thumbnail.path}/portrait_xlarge.${data[0].thumbnail.extension}" alt="">
        </div>
-       <div class="flex flex-col gap-6">
-           <h3>${data[0].name}</h3>
+       <div class="">
+           <h3><b>${data[0].name}</b></h3>
        </div>
    </div>
-   <p>COMICS</p>
+   <p><b>COMICS</b></p>
    <h5>Resultados</h5>
    <p>${totalData2}</p>
     <div class="gap-4">
@@ -164,9 +164,9 @@ const renderCharacters = async(name, searched, offsetCharacters) => {
     $("#render-characters").innerHTML = ""
     for(let character of characters){
         $("#render-characters").innerHTML += `
-        <div onclick="getCharacterDetail(${character.id})" class="flex justify-center flex-col gap-y-2">
+        <div onclick="getCharacterDetail(${character.id})" class="m-2 flex justify-center flex-col gap-y-2">
          <img class="rounded-md" src="${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}" alt="">
-         <p class="font-bold text-white">${character.name}</p>
+         <p class="font-semibold text-white">${character.name}</p>
         </div>
         `
     }
@@ -282,4 +282,25 @@ renderCharacters($("#input-search").value, $("#select-order").value, offsetChara
         }
        
      })
+     $("#modo").addEventListener("click", () => {
+        $("#body").classList.toggle("bg-blue-50")
+        $("#body").classList.toggle("bg-blue-950")
+        if($("#body").classList.contains("bg-blue-950")){
+            $("#modo").innerText = "💡 Modo claro"
+           $("#modo").classList.add("text-neutral-500")
+        }else{
+            $("#modo").innerText = "🌙 Modo oscuro"
+            $("#modo").classList.remove("text-white")
+        }
+
+
+        // if($("#body").classList.contains("bg-blue-50")){
+        //     $("#body").classList.add("bg-blue-950")
+        // } else if($("#body").classList.contains("bg-blue-950")){
+        //     $("#body").classList.remove("bg-blue-950")
+        //     $("#body").classList.add("bg-blue-50")
+        // }
+            
+        }
+     )
      
