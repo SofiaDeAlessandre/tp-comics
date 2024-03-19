@@ -1,6 +1,6 @@
 Project "Ada Comics" for the Frontend Development Bootcamp in ADA ITW
 
-Deployment:
+Deployment: https://sofiadealessandre.github.io/tp-comics/
 
 Description: Ada Comics uses the Marvel API, allows you to search for comics or characters and learn their details
 
