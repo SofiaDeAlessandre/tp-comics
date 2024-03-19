@@ -11,9 +11,9 @@
 <body id="body" class="bg-blue-950">
     <!--HEADER-->
     <header class="w-full h-20 flex justify-center">
-        <div class="w-64 h-full flex items-center justify-center">
-            <h1 class="text-red-800 text-4xl font-bold">ADA COMICS</h1>
-            <button class="text-neutral-500" id="modo">💡 Modo claro</button>
+        <div class="w-64 h-full flex items-center justify-center gap-x-20">
+            <h1 class="text-red-800 text-4xl font-bold font-mono">ADA COMICS</h1>
+            <button class="text-neutral-500 m-6 text-sm font-semibold" id="mode">💡 Modo claro</button>
         </div>
     </header>
     <!--END HEADER-->
@@ -28,7 +28,8 @@
              <h2 class="text-2xl text-red-800 font-bold">
                 Búsqueda
              </h2>
-             <div class="flex items-center gap-2">
+             <div class="flex items-center gap-4">
+                <a href="index.html"><i class="fa-solid fa-arrow-left text-neutral-500 text-2xl"></i></a>
               <i class="fa-solid fa-magnifying-glass text-2xl text-blue-800"></i>
               <input id="input-search" type="text" placeholder="Ingresá tu búsqueda" class="w-full h-12 border-b-4 border-red-800 bg-transparent text-neutral-500 font-bold">
              </div>
@@ -37,10 +38,9 @@
                 <div class="flex justify-between w-full md:w-96 md:flex md:gap-4 lg:w-1/2 lg:mt-12 lg:gap-2">
                     <label class="text-red-800 font-medium self-center">TIPO</label>
                     <select id="select-type" class="text-neutral-500 font-semibold bg-transparent rounded-md border-red-800 border-2">
-                        <option class="text-violet-800 font-semibold" value="comics" selected>Comics</option>
-                        <option class="text-violet-800 font-semibold" value="characters">Personajes</option>
+                        <option class="text-blue-800 font-semibold" value="comics" selected>Comics</option>
+                        <option class="text-blue-800 font-semibold" value="characters">Personajes</option>
                     </select>
-                
                     <label class="text-red-800 font-medium self-center">ORDEN</label>
                     <select id="select-order" class="text-neutral-500 font-semibold bg-transparent rounded-md border-red-800 border-2">
                         <option class="text-blue-800 font-semibold" value="-modified">Más nuevo</option>
@@ -48,7 +48,6 @@
                     </select>
                     <button id="btn" class="rounded-md border-emerald-400 p-2 bg-transparent text-lg text-red-800 font-medium flex self-end">Buscar</button>
                 </div>
-                
             </div>
         </section>
     <!--End search section-->
@@ -56,17 +55,13 @@
     <section id="results-section" class="flex flex-col justify-center gap-y-4 w-full h-full">
         <h2 id="results-number" class="flex self-center text-xl text-red-800 font-bold">Resultados</h2>
         <!--RENDER FROM JS-->
-        <div id="render-cards" class="m-6 p-2 grid grid-cols-3 gap-2 md:grid-cols-5 gap-4 lg:grid-cols-5 gap-4">
-            
+        <div id="render-cards" class="m-6 p-2 text-neutral-500 grid grid-cols-3 gap-2 md:grid-cols-5 gap-4 lg:grid-cols-5 gap-4">     
         </div>
-        <div id="render-cards-detail" class="hidden text-neutral-500 m-6 p-6 w-full h-full flex flex-col items-center">
-            
+        <div id="render-cards-detail" class="hidden text-neutral-500 m-6 p-6 w-full h-full flex flex-col items-center">  
         </div>
-        <div id="render-characters" class="hidden m-6 p-2 grid grid-cols-3 gap-2 md:grid-cols-5 gap-4 lg:grid-cols-5 gap-4">
-            
+        <div id="render-characters" class="hidden text-neutral-500 m-6 p-2 grid grid-cols-3 gap-2 md:grid-cols-5 gap-4 lg:grid-cols-5 gap-4">    
         </div>
         <div id="render-characters-detail" class="hidden text-neutral-500 w-full h-full flex flex-col items-center">
-            
         </div>
         <div id="buttons" class="flex justify-center gap-4 w-full">
             <button id="init" class=""><i class="fa-solid fa-angles-left text-blue-800"></i></button>
